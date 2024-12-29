@@ -2,10 +2,6 @@
 
 This project provides a Dockerized environment to populate a PostgreSQL database with 1 million rows of fake data using Python and Faker. The project uses Docker Compose to manage the database and Python services.
 
-## Project Structure
-
-The project contains the following files:
-
 ## Setup Instructions
 
 ### Step 1: Clone the Repository
@@ -20,17 +16,16 @@ cd postgres-data-populator
 ```bash
 docker-compose up
 ```
-###Step 3: Start the Containers
+### Step 3: Start the Containers
 
 ```bash
 docker-compose up
 ```
-###Accessing the Database
+### Accessing the Database
 
 ```bash
 docker exec -it postgres_db psql -U user -d test_db
 ```
-
 ```bash
 SELECT COUNT(*) FROM test_table;
 ```

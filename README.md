@@ -14,7 +14,7 @@ cd postgres-data-populator
 ### Step 2: Build the Docker Containers
 
 ```bash
-docker-compose up
+docker-compose build
 ```
 ### Step 3: Start the Containers
 

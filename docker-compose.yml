@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  database:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  populate:
+    build:
+      context: .
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+      DB_PORT: "5432"
+      DB_NAME: test_db
+      DB_USER: user
+      DB_PASS: password

@@ -11,18 +11,34 @@ services:
       - "5432:5432"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d test_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  populate:
+  backend:
     build:
-      context: .
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend_service
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     environment:
-      DB_HOST: database
-      DB_PORT: "5432"
-      DB_NAME: test_db
-      DB_USER: user
-      DB_PASS: password
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_NAME=test_db
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
 
   localstack:
     image: localstack/localstack
@@ -30,8 +46,21 @@ services:
     environment:
       - SERVICES=s3
       - DEBUG=1
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - DOCKER_HOST=unix:///var/run/docker.sock
     ports:
       - "4566:4566"
       - "4572:4572"
     volumes:
       - "./localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    healthcheck:
+      test: ["CMD", "awslocal", "s3", "ls"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

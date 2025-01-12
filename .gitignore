@@ -4,7 +4,7 @@
 coverage/
 
 # Python-specific files
-*/__pycache__/
+__pycache__
 *.py[cod]
 *.pyo
 *.pyd
@@ -12,6 +12,7 @@ coverage/
 *.pyd
 *.pyo
 *.pyd
+*.pyc
 
 # Virtual environment
 venv/
@@ -21,3 +22,5 @@ venv/
 *.db
 *.sqlite3
 instance/
+
+localstack/

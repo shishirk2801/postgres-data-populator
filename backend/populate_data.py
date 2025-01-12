@@ -1,7 +1,6 @@
-import os
 from faker import Faker
 from tqdm import tqdm
-from backend.db import get_connection, release_connection
+from db import get_connection, release_connection
 
 conn = get_connection()
 cursor = conn.cursor()

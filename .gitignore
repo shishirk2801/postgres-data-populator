@@ -1,0 +1,23 @@
+
+
+# Coverage directory used by testing tools
+coverage/
+
+# Python-specific files
+*/__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyo
+*.pyd
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# FastAPI specific
+*.db
+*.sqlite3
+instance/

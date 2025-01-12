@@ -2,3 +2,5 @@ psycopg2-binary
 faker
 tqdm
 fastapi[standard]
+psycopg2
+xlsxwriter

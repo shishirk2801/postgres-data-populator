@@ -1,17 +1,9 @@
 import os
-import psycopg2
 from faker import Faker
 from tqdm import tqdm
+from backend.db import get_connection, release_connection
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
-DB_NAME = os.getenv("DB_NAME", "test_db")
-DB_USER = os.getenv("DB_USER", "user")
-DB_PASS = os.getenv("DB_PASS", "password")
-
-conn = psycopg2.connect(
-    host=DB_HOST, port=DB_PORT, dbname=DB_NAME, user=DB_USER, password=DB_PASS
-)
+conn = get_connection()
 cursor = conn.cursor()
 
 fake = Faker()
@@ -44,5 +36,5 @@ for _ in tqdm(range(0, rows_to_insert, batch_size)):
     conn.commit()
 
 cursor.close()
-conn.close()
+release_connection(conn)
 print("Database population completed!")
